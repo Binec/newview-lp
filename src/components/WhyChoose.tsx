@@ -23,7 +23,7 @@ export default function WhyChoose() {
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           {/* image column */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <Reveal>
+            <Reveal from="left">
               <div className="relative mx-auto max-w-[420px]">
                 <div className="absolute -inset-3 rounded-[32px] border border-white/12" aria-hidden="true" />
                 <SmartImg
@@ -46,7 +46,7 @@ export default function WhyChoose() {
 
           {/* content column */}
           <div>
-            <Reveal>
+            <Reveal from="right">
               <Eyebrow tone="light">Why NuView</Eyebrow>
               <h2 className="mt-4 text-[30px] font-semibold leading-[1.15] tracking-tight sm:text-[40px]">
                 Why Choose <span className="font-display italic text-mint">NuView?</span>
@@ -61,7 +61,7 @@ export default function WhyChoose() {
               {FEATURES.map((f, i) => (
                 <Reveal
                   key={f.title}
-                  delay={i * 70}
+                  delay={120 + i * 140}
                   className={i === 0 ? "sm:col-span-2" : ""}
                 >
                   <article className="group h-full rounded-3xl border border-white/12 bg-white/5 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:bg-white/8">
@@ -75,7 +75,7 @@ export default function WhyChoose() {
               ))}
             </div>
 
-            <Reveal delay={120} className="mt-8">
+            <Reveal delay={320} className="mt-8">
               <div className="grid gap-4 rounded-3xl border border-white/12 bg-white/5 p-6 sm:grid-cols-3">
                 {HIGHLIGHTS.map((h) => (
                   <div key={h.label} className="text-center sm:text-left">

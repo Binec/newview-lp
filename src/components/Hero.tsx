@@ -85,6 +85,7 @@ export default function Hero() {
             <Reveal delay={640}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Btn href="#verify" size="lg" className="w-full sm:w-auto">
+                  <Icon name="shield" className="h-4 w-4" />
                   Verify Insurance Now
                 </Btn>
                 <CallButton className="w-full bg-white sm:w-auto">

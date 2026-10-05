@@ -94,7 +94,7 @@ export default function VerifyForm() {
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           {/* ---------- copy ---------- */}
           <div className="text-white">
-            <Reveal>
+            <Reveal from="left">
               <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-mint">
                 <span className="h-px w-8 bg-mint/50" />
                 Coverage check
@@ -109,7 +109,7 @@ export default function VerifyForm() {
               </p>
             </Reveal>
 
-            <Reveal delay={80}>
+            <Reveal delay={200} from="left">
               <ul className="mt-8 space-y-4">
                 {[
                   { icon: "clock", t: "Response within 30 minutes", d: "During business hours, Monday to Friday." },
@@ -129,7 +129,7 @@ export default function VerifyForm() {
               </ul>
             </Reveal>
 
-            <Reveal delay={140} className="mt-9">
+            <Reveal delay={380} from="left" className="mt-9">
               <div className="rounded-3xl border border-white/15 bg-white/5 p-5">
                 <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-mint">
                   In network with
@@ -154,7 +154,7 @@ export default function VerifyForm() {
           </div>
 
           {/* ---------- form card ---------- */}
-          <Reveal delay={60}>
+          <Reveal delay={180} from="right">
             <div className="rounded-[28px] bg-white p-6 shadow-[0_50px_100px_-50px_rgba(0,0,0,0.8)] sm:p-8">
               {sent ? (
                 <div className="flex min-h-[460px] flex-col items-center justify-center text-center">
@@ -364,11 +364,8 @@ export default function VerifyForm() {
                     type="submit"
                     className="group mt-7 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-brand px-6 py-5 text-[18px] font-semibold text-white shadow-[0_14px_32px_-16px_rgba(26,131,121,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink"
                   >
+                    <Icon name="shield" className="h-5 w-5" />
                     Verify My Insurance
-                    <Icon
-                      name="arrowRight"
-                      className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-                    />
                   </button>
 
                   <p className="mt-5 text-center text-[13px] leading-relaxed text-steel">

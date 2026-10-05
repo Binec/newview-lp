@@ -64,21 +64,20 @@ export default function Header() {
           <Logo />
 
           <div className="flex items-center gap-2">
-            <CallButton className="hidden sm:inline-flex" />
+            <CallButton className="hidden md:inline-flex" />
             <a
               href="#verify"
               className="hidden items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[15px] font-semibold text-white shadow-[0_10px_26px_-14px_rgba(26,131,121,0.95)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink md:inline-flex"
             >
+              <Icon name="shield" className="h-4 w-4" />
               Verify Insurance
-              <Icon name="arrowRight" className="h-4 w-4" />
             </a>
-            <CallButton compact className="sm:hidden" />
             <a
               href="#verify"
               className="grid h-11 w-11 place-items-center rounded-full bg-brand text-white transition-colors hover:bg-ink md:hidden"
               aria-label="Verify insurance"
             >
-              <Icon name="arrowRight" className="h-5 w-5" />
+              <Icon name="shield" className="h-5 w-5" />
             </a>
           </div>
         </div>

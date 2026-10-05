@@ -32,7 +32,7 @@ export default function Levels() {
         </Reveal>
 
         {/* -------- tabs -------- */}
-        <Reveal delay={80} className="mt-10">
+        <Reveal delay={220} className="mt-10">
           <div
             role="tablist"
             aria-label="Levels of care"
@@ -66,6 +66,7 @@ export default function Levels() {
         </Reveal>
 
         {/* -------- panel -------- */}
+        <Reveal delay={360} from="fade">
         <div
           role="tabpanel"
           id={`panel-${level.id}`}
@@ -103,9 +104,10 @@ export default function Levels() {
             </div>
           </div>
         </div>
+        </Reveal>
 
         {/* -------- banner -------- */}
-        <Reveal delay={60} className="mt-8">
+        <Reveal delay={280} className="mt-8">
           <div className="flex flex-col items-center justify-between gap-5 rounded-[26px] bg-mint px-6 py-4.5 sm:flex-row sm:px-8 sm:py-5">
             <div className="flex items-center gap-4">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-sm">
@@ -121,11 +123,8 @@ export default function Levels() {
                 href="#verify"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[15px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(26,131,121,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink hover:shadow-[0_14px_30px_-10px_rgba(17,35,47,0.7)]"
               >
+                <Icon name="shield" className="h-4 w-4 shrink-0" />
                 <span>Verify Insurance Now</span>
-                <Icon
-                  name="arrowRight"
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                />
               </a>
               <CallButton className="bg-white" />
             </div>

@@ -140,11 +140,13 @@ export function Reveal({
   delay = 0,
   className = "",
   as: Tag = "div",
+  from = "up",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   as?: keyof HTMLElementTagNameMap;
+  from?: "up" | "left" | "right" | "fade";
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
@@ -163,19 +165,26 @@ export function Reveal({
           io.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  const hidden = {
+    up: "translate-y-8 opacity-0",
+    left: "-translate-x-8 opacity-0",
+    right: "translate-x-8 opacity-0",
+    fade: "opacity-0",
+  }[from];
 
   const Comp = Tag as any;
   return (
     <Comp
       ref={ref}
       className={cx(
-        "transition-[opacity,transform] duration-700 ease-out will-change-transform",
-        shown ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
+        "will-change-[opacity,transform] [transition-property:opacity,transform] [transition-duration:1400ms] [transition-timing-function:var(--ease-peace)]",
+        shown ? "translate-x-0 translate-y-0 opacity-100" : hidden,
         className,
       )}
       style={{ transitionDelay: `${delay}ms` }}
@@ -217,7 +226,7 @@ export function SmartImg({
           onLoad={() => setStatus("ok")}
           onError={() => setStatus("fail")}
           className={cx(
-            "h-full w-full object-cover transition-[opacity,transform] duration-700",
+            "h-full w-full object-cover transition-[opacity,transform] duration-[1400ms] [transition-timing-function:var(--ease-peace)]",
             status === "ok" ? "opacity-100" : "opacity-0",
           )}
         />
@@ -239,6 +248,7 @@ type BtnProps = {
   className?: string;
   type?: "button" | "submit";
   disabled?: boolean;
+  arrow?: boolean;
 };
 
 export function Btn({
@@ -250,6 +260,7 @@ export function Btn({
   className = "",
   type = "button",
   disabled,
+  arrow = false,
 }: BtnProps) {
   const base =
     "group inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60";
@@ -268,10 +279,12 @@ export function Btn({
   const inner = (
     <>
       {children}
-      <Icon
-        name="arrowRight"
-        className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
-      />
+      {arrow && (
+        <Icon
+          name="arrowRight"
+          className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+        />
+      )}
     </>
   );
 

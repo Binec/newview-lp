@@ -10,6 +10,9 @@ export default function Facility() {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
 
+  const lightboxTouchStartX = useRef<number | null>(null);
+  const lightboxTouchStartY = useRef<number | null>(null);
+
   const goTo = useCallback((i: number) => {
     const clamped = (i + GALLERY.length) % GALLERY.length;
     setIndex(clamped);
@@ -20,6 +23,14 @@ export default function Facility() {
         track.scrollTo({ left: child.offsetLeft - track.offsetLeft, behavior: "smooth" });
       }
     }
+  }, []);
+
+  const nextLightbox = useCallback(() => {
+    setOpen((o) => ((o ?? 0) + 1) % GALLERY.length);
+  }, []);
+
+  const prevLightbox = useCallback(() => {
+    setOpen((o) => ((o ?? 0) - 1 + GALLERY.length) % GALLERY.length);
   }, []);
 
   useEffect(() => {
@@ -67,6 +78,30 @@ export default function Facility() {
     };
   }, [open]);
 
+  // touch swipe handlers for lightbox popup
+  const onLightboxTouchStart = (e: React.TouchEvent) => {
+    lightboxTouchStartX.current = e.touches[0].clientX;
+    lightboxTouchStartY.current = e.touches[0].clientY;
+  };
+
+  const onLightboxTouchEnd = (e: React.TouchEvent) => {
+    if (lightboxTouchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - lightboxTouchStartX.current;
+    const deltaY = touchEndY - (lightboxTouchStartY.current ?? touchEndY);
+
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        nextLightbox();
+      } else {
+        prevLightbox();
+      }
+    }
+    lightboxTouchStartX.current = null;
+    lightboxTouchStartY.current = null;
+  };
+
   return (
     <section id="facility" className="relative bg-cloud py-20 lg:py-28">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
@@ -80,7 +115,7 @@ export default function Facility() {
               {CAPTION} Select any photo to view it larger.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <button
               type="button"
               onClick={() => goTo(index - 1)}
@@ -104,7 +139,7 @@ export default function Facility() {
           <div className="relative">
             <div
               ref={trackRef}
-              className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-5 pb-2 lg:mx-0 lg:px-0"
+              className="no-scrollbar -mx-5 flex touch-pan-x snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-5 pb-2 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] lg:mx-0 lg:px-0"
               role="group"
               aria-label="Facility photo gallery"
             >
@@ -135,6 +170,28 @@ export default function Facility() {
               ))}
             </div>
 
+            {/* mobile arrows + swipe hint */}
+            <div className="mt-5 flex flex-col items-center gap-3 md:hidden">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => goTo(index - 1)}
+                  aria-label="Previous photo"
+                  className="grid h-11 w-11 place-items-center rounded-full border border-fog bg-white text-ink transition-all duration-300 hover:border-brand hover:text-brand"
+                >
+                  <Icon name="chevronLeft" className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => goTo(index + 1)}
+                  aria-label="Next photo"
+                  className="grid h-11 w-11 place-items-center rounded-full border border-fog bg-white text-ink transition-all duration-300 hover:border-brand hover:text-brand"
+                >
+                  <Icon name="chevronRight" className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
             {/* dots */}
             <div className="mt-5 flex items-center justify-center gap-2">
               {GALLERY.map((_, i) => (
@@ -155,58 +212,102 @@ export default function Facility() {
         </Reveal>
       </div>
 
-      {/* lightbox */}
+      {/* lightbox popup */}
       {open !== null && (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/95 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/95 p-4 backdrop-blur-sm touch-pan-y"
           role="dialog"
           aria-modal="true"
           aria-label={`Facility photo ${open + 1} of ${GALLERY.length}`}
           onClick={() => setOpen(null)}
+          onTouchStart={onLightboxTouchStart}
+          onTouchEnd={onLightboxTouchEnd}
         >
+          {/* Close button */}
           <button
             type="button"
             onClick={() => setOpen(null)}
             aria-label="Close photo viewer"
-            className="absolute right-4 top-4 grid h-12 w-12 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15"
+            className="absolute right-4 top-4 z-10 grid h-12 w-12 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15"
           >
             <Icon name="close" className="h-5 w-5" />
           </button>
 
+          {/* Desktop-only side arrow: Previous */}
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setOpen((o) => ((o ?? 0) - 1 + GALLERY.length) % GALLERY.length);
+              prevLightbox();
             }}
             aria-label="Previous photo"
-            className="absolute left-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15 sm:left-6"
+            className="absolute left-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15 md:grid"
           >
             <Icon name="chevronLeft" className="h-5 w-5" />
           </button>
 
-          <figure className="max-h-full w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+          {/* Popup content */}
+          <figure
+            className="relative flex max-h-full w-full max-w-5xl flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
               src={GALLERY[open]}
               alt={`Inside the NuView Treatment Center facility, photo ${open + 1}`}
-              className="mx-auto max-h-[76vh] w-auto rounded-2xl object-contain shadow-2xl"
+              draggable={false}
+              className="mx-auto max-h-[65vh] w-auto select-none rounded-2xl object-contain shadow-2xl sm:max-h-[74vh]"
             />
-            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[13.5px] text-fog">
-              <span className="max-w-xl">{CAPTION}</span>
-              <span className="tabular-nums text-white/80">
+
+            <figcaption className="mt-4 flex w-full flex-col items-center gap-3 text-[13.5px] text-fog md:flex-row md:justify-between">
+              <span className="max-w-xl text-center md:text-left">{CAPTION}</span>
+
+              {/* Desktop counter */}
+              <span className="hidden tabular-nums text-white/80 md:inline">
                 {open + 1} / {GALLERY.length}
               </span>
+
+              {/* Mobile-only controls: Arrows on bottom of text with counter */}
+              <div className="flex flex-col items-center gap-2 pt-1 md:hidden">
+                <div className="flex items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevLightbox();
+                    }}
+                    aria-label="Previous photo"
+                    className="grid h-11 w-11 place-items-center rounded-full border border-white/25 text-white active:bg-white/20"
+                  >
+                    <Icon name="chevronLeft" className="h-5 w-5" />
+                  </button>
+                  <span className="tabular-nums text-xs font-medium text-white/90">
+                    {open + 1} / {GALLERY.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextLightbox();
+                    }}
+                    aria-label="Next photo"
+                    className="grid h-11 w-11 place-items-center rounded-full border border-white/25 text-white active:bg-white/20"
+                  >
+                    <Icon name="chevronRight" className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
             </figcaption>
           </figure>
 
+          {/* Desktop-only side arrow: Next */}
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setOpen((o) => ((o ?? 0) + 1) % GALLERY.length);
+              nextLightbox();
             }}
             aria-label="Next photo"
-            className="absolute right-3 top-1/2 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15 sm:right-6"
+            className="absolute right-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-white/25 text-white transition-colors hover:bg-white/15 md:grid"
           >
             <Icon name="chevronRight" className="h-5 w-5" />
           </button>

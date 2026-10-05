@@ -125,7 +125,7 @@ export default function Reviews() {
           </div>
         </Reveal>
 
-        <Reveal delay={80} className="mt-10">
+        <Reveal delay={240} from="fade" className="mt-10">
           <div
             className="relative overflow-hidden"
             role="region"
@@ -177,12 +177,13 @@ export default function Reviews() {
           </div>
         </Reveal>
 
-        <Reveal delay={100} className="mt-10 text-center">
+        <Reveal delay={400} className="mt-10 text-center">
           <p className="text-[15px] text-steel">
             Ready to write your own story? It starts with one confidential conversation.
           </p>
           <div className="mt-5 flex flex-col justify-center gap-3 sm:flex-row">
             <Btn href="#verify" size="lg">
+              <Icon name="shield" className="h-4 w-4" />
               Verify Insurance Now
             </Btn>
           </div>

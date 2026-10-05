@@ -20,7 +20,7 @@ export default function Faq() {
           {FAQS.map((f, i) => {
             const isOpen = open === i;
             return (
-              <Reveal key={f.q} delay={i * 45}>
+              <Reveal key={f.q} delay={i * 90}>
                 <h3>
                   <button
                     type="button"
@@ -67,7 +67,7 @@ export default function Faq() {
           })}
         </div>
 
-        <Reveal delay={80} className="mt-9 text-center">
+        <Reveal delay={240} className="mt-9 text-center">
           <p className="text-[15.5px] text-steel">Still have a question? We&rsquo;re happy to answer it.</p>
           <CallButton className="mt-4 bg-white">
             Call {PHONE}

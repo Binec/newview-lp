@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { INSURERS } from "../data";
 import CallButton from "./CallButton";
-import { Btn, Eyebrow, Reveal } from "./ui";
+import { Btn, Eyebrow, Icon, Reveal } from "./ui";
 
 function LogoTile({ name, logo }: { name: string; logo: string }) {
   const [failed, setFailed] = useState(false);
@@ -45,7 +45,8 @@ export default function Insurance() {
         </Reveal>
 
         {/* Insurance provider logos */}
-        <div className="mt-10">
+        <Reveal delay={200} from="fade" className="mt-10">
+        <div>
           <div className="marquee-mask marquee-paused overflow-hidden">
             <div className="marquee-track flex w-max gap-4" style={{ animation: "var(--animate-marquee)" }}>
               {[...INSURERS, ...INSURERS].map((ins, i) => (
@@ -54,16 +55,20 @@ export default function Insurance() {
             </div>
           </div>
         </div>
+        </Reveal>
 
         {/* notes */}
-        <Reveal delay={60} className="mx-auto mt-12 max-w-3xl">
+        <Reveal delay={280} className="mx-auto mt-12 max-w-3xl">
           <div className="flex flex-col items-center gap-5 rounded-3xl bg-white p-6 text-center shadow-[0_24px_50px_-40px_rgba(17,35,47,0.6)] sm:p-8">
             <p className="text-[15.5px] leading-relaxed text-ink">
               Don&rsquo;t see your insurance? Give us a call; we accept many plans not listed here,
               including employer-sponsored plans.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Btn href="#verify">Verify Insurance Now</Btn>
+              <Btn href="#verify">
+                <Icon name="shield" className="h-4 w-4" />
+                Verify Insurance Now
+              </Btn>
               <CallButton />
             </div>
           </div>
