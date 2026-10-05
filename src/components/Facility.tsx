@@ -100,7 +100,7 @@ export default function Facility() {
           </div>
         </Reveal>
 
-        <Reveal delay={80} className="mt-9">
+        <Reveal delay={260} from="fade" className="mt-9">
           <div className="relative">
             <div
               ref={trackRef}
@@ -119,7 +119,6 @@ export default function Facility() {
                     i === 0
                       ? "h-[240px] w-[78%] sm:h-[330px] sm:w-[58%] lg:h-[400px] lg:w-[46%]"
                       : "h-[240px] w-[78%] sm:h-[330px] sm:w-[36%] lg:h-[400px] lg:w-[27%]",
-                    i === index ? "ring-2 ring-brand ring-offset-2 ring-offset-cloud" : "",
                   )}
                 >
                   <SmartImg
