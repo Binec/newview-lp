@@ -11,39 +11,20 @@ export const NAV = [
   { id: "faq", label: "FAQ" },
 ];
 
+const LOGO_SRC =
+  "https://raw.githubusercontent.com/Binec/newview-lp/main/src/assets/logoNiuviu.png";
+
 export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
   return (
-    <a href="#top" className="group flex items-center gap-2.5" aria-label="NuView Treatment Center — home">
-      <span className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-white shadow-[0_8px_20px_-10px_rgba(26,131,121,0.9)] transition-transform duration-300 group-hover:scale-105">
-        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden="true">
-          <path
-            d="M5 18V6l9.5 8.2V6"
-            stroke="currentColor"
-            strokeWidth="2.1"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle cx="18.4" cy="17.6" r="1.9" fill="currentColor" />
-        </svg>
-      </span>
-      <span className="leading-none">
-        <span
-          className={cx(
-            "block text-[19px] font-semibold tracking-tight",
-            tone === "dark" ? "text-ink" : "text-white",
-          )}
-        >
-          Nu<span className="text-brand">View</span>
-        </span>
-        <span
-          className={cx(
-            "block text-[10px] font-medium uppercase tracking-[0.18em]",
-            tone === "dark" ? "text-steel" : "text-fog",
-          )}
-        >
-          Treatment Center
-        </span>
-      </span>
+    <a href="#top" className="group inline-flex items-center" aria-label="NuView Treatment Center — home">
+      <img
+        src={LOGO_SRC}
+        alt="NuView Treatment Center"
+        className={cx(
+          "h-9 w-auto max-w-[168px] object-contain object-left transition-opacity duration-300 sm:h-10 sm:max-w-[196px]",
+          tone === "light" && "brightness-0 invert",
+        )}
+      />
     </a>
   );
 }
