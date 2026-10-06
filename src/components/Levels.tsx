@@ -3,6 +3,28 @@ import { LEVELS } from "../data";
 import CallButton from "./CallButton";
 import { Eyebrow, Icon, Reveal, SmartImg, cx } from "./ui";
 
+function ListIcon() {
+  return (
+    <svg
+      width="10"
+      height="14"
+      viewBox="0 0 10 14"
+      fill="none"
+      aria-hidden="true"
+      className="mt-1 h-3.5 w-2.5 shrink-0"
+    >
+      <path
+        d="M9.99997 6.99999C9.99997 6.58098 9.84104 6.15975 9.52097 5.83998L4.93627 1.25945C4.29613 0.619897 3.25867 0.619897 2.61853 1.25945C1.97839 1.899 1.97839 2.93552 2.61853 3.57508L4.84135 5.79587C6.04216 6.99779 4.84135 8.20412 4.84135 8.20412L2.61853 10.4249C1.97839 11.0645 1.97839 12.101 2.61853 12.7405C3.25867 13.3801 4.29613 13.3801 4.93627 12.7405L9.52097 8.16001C9.84104 7.84024 10.0022 7.41901 9.99997 6.99999Z"
+        fill="#1C837A"
+      />
+      <path
+        d="M1.60476 8.54839C2.49104 8.54839 3.20951 7.83057 3.20951 6.94509C3.20951 6.05962 2.49104 5.3418 1.60476 5.3418C0.718474 5.3418 0 6.05962 0 6.94509C0 7.83057 0.718474 8.54839 1.60476 8.54839Z"
+        fill="#1C837A"
+      />
+    </svg>
+  );
+}
+
 export default function Levels() {
   const [tab, setTab] = useState(0);
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
@@ -93,7 +115,7 @@ export default function Levels() {
               <ul className="mt-6 space-y-3">
                 {level.details.map((d) => (
                   <li key={d.label} className="flex items-start gap-3">
-                    <Icon name={d.icon} className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                    <ListIcon />
                     <p className="text-[14px] leading-relaxed text-steel">
                       <span className="font-medium text-ink">{d.label}:</span>{" "}
                       {d.value}
