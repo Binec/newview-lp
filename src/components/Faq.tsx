@@ -7,7 +7,7 @@ export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="bg-mint py-20 lg:py-28">
+    <section id="faq" className="bg-[#f9fafb] py-20 lg:py-28">
       <div className="mx-auto max-w-[900px] px-5 lg:px-8">
         <Reveal className="text-center">
           <Eyebrow>Questions</Eyebrow>
